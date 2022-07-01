@@ -12,10 +12,10 @@ namespace NewsService.Mapper
             CreateMap<NewsCreate, News>();
             CreateMap<NewsCategoryCreate, NewsCategory>();
 
-            CreateMap<NewsCategoryCreate, NewsCategory>();
-            CreateMap<NewsCategoryUpdate, NewsCategory>();
+            CreateMap<NewsCategoryCreate, NewsCategory>().ForMember(q => q.ExternalId, p => p.MapFrom(x => x.Id)).ForMember(q => q.Id, p => p.Ignore());
+            CreateMap<NewsCategoryUpdate, NewsCategory>().ForMember(q => q.ExternalId, p => p.MapFrom(x => x.Id)).ForMember(q => q.Id, p => p.Ignore());
             CreateMap<NewsCategoryDelete, NewsCategory>();
-            CreateMap<NewsCategoryDelete, NewsCategory>();
+
             CreateMap<NewsCategory, NewsCategoryRead>();
             CreateMap<NewsCategoryUpdate, NewsCategoryCreate>();
         }

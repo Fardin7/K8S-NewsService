@@ -7,7 +7,7 @@ using NewsService.Contract;
 
 namespace NewsService.Data
 {
-    public class NewsCategoryRepository : INewsCategoryRepository 
+    public class NewsCategoryRepository : INewsCategoryRepository
     {
         private readonly AppDBContext _appDbContext;
         private readonly IMapper _mapper;
@@ -26,29 +26,25 @@ namespace NewsService.Data
             await _appDbContext.SaveChangesAsync();
 
             return _mapper.Map<NewsCategoryRead>(newsCategory);
-        }      
-        public void Remove(NewsCategoryDelete newsCategoryRead)
-        {
-            _appDbContext.NewsCategory.Remove(_mapper.Map<NewsCategory>(newsCategoryRead));
-
-             _appDbContext.SaveChangesAsync();
         }
-        public async Task<NewsCategoryRead> Update(NewsCategoryUpdate newsCategoryCreate)
+        public async Task<NewsCategoryRead> Update(NewsCategoryUpdate newsCategoryUpdate)
         {
-            var category = await _appDbContext.NewsCategory.FindAsync(newsCategoryCreate.Id);
+            var newsCategory = _mapper.Map<NewsCategory>(newsCategoryUpdate);
 
-            category.Description = newsCategoryCreate.Description;
-            category.Name = newsCategoryCreate.Name;
+            var category = await FindByExternalId(newsCategoryUpdate.Id);
+
+            category.Description = newsCategoryUpdate.Description;
+            category.Name = newsCategoryUpdate.Name;
 
             await _appDbContext.SaveChangesAsync();
 
             return _mapper.Map<NewsCategoryRead>(category);
         }
-        public async Task<NewsCategoryRead> GetById(int id)
+        public async Task<NewsCategory> FindByExternalId(int externalid)
         {
-            var newsCategory = await _appDbContext.NewsCategory.FindAsync(id);
+            var category = await _appDbContext.NewsCategory.Where(q => q.ExternalId == externalid).FirstOrDefaultAsync();
 
-            return _mapper.Map<NewsCategoryRead>(newsCategory);
+            return category;
         }
     }
 }

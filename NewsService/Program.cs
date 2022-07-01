@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using NewsService.Data;
 using Microsoft.EntityFrameworkCore.InMemory;
+using NewsService.MessageProcessor;
+using NewsService.AsyncReciver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,10 +20,13 @@ builder.Services.AddDbContext<AppDBContext>(opt => opt.UseInMemoryDatabase("InMe
 
 builder.Services.AddScoped<IRepository, NewsRepository>();
 builder.Services.AddScoped<INewsCategoryRepository, NewsCategoryRepository>();
+builder.Services.AddSingleton<IMessageProcessor, MessageProcessor>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHostedService<Subscriper>();
 
 var app = builder.Build();
 

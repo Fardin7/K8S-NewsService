@@ -17,11 +17,11 @@ namespace NewsService.Controllers
             _repository = repository;
         }
         [HttpPost]
-        public async Task<IActionResult> Add(NewsCategoryCreate newsCreate)
+        public async Task<IActionResult> Add(NewsCreate newsCreate)
         {
             Console.WriteLine("Updated Category.......!");
 
-           // var news = await _repository.Add(newsCreate);
+            var news = await _repository.Add(newsCreate);
 
             return Ok(new NewsCategoryRead() { Description= "Description1",Name="name",Id=1500
             });

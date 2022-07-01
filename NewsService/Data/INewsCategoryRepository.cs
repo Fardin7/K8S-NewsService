@@ -1,4 +1,5 @@
 ﻿using NewsService.Contract;
+using NewsService.Model;
 
 namespace NewsService.Data
 {
@@ -6,7 +7,6 @@ namespace NewsService.Data
     {
         Task<NewsCategoryRead> Add(NewsCategoryCreate newsCategoryCreate);
         Task<NewsCategoryRead> Update(NewsCategoryUpdate newsCategoryCreate);
-        void Remove(NewsCategoryDelete newsCategoryRead);
-        Task<NewsCategoryRead> GetById(int id);
+        Task<NewsCategory> FindByExternalId(int externalid);
     }
 }
